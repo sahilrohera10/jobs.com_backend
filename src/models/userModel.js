@@ -23,6 +23,9 @@ const userModelSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    user_otp: {
+      type: Number,
+    },
   },
   { timestamps: true }
 );

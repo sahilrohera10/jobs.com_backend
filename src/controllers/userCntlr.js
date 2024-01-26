@@ -1,10 +1,12 @@
 const user_model = require("../models/userModel");
 const bcrypt = require("bcrypt");
+// const ApiError = require("../utils/ApiError");
+// const ApiResponse = require("../utils/ApiResponse");
 async function Register(req, resp) {
   try {
     const data = await user_model.findOne({ user_email: req.body.user_email });
     if (data) {
-      return resp.status(400).json({ msg: "already registerd" });
+      return resp.status(200).json({ msg: "Already registered" });
     }
     const body = {
       user_first_name: req.body.user_first_name,

@@ -6,13 +6,11 @@ async function Register(req, resp) {
     if (data) {
       return resp.status(400).json({ msg: "already registerd" });
     }
-    const salt = await bcrypt.genSalt(10);
-    const Secpassword = await bcrypt.hash(req.body.user_password, salt);
     const body = {
       user_first_name: req.body.user_first_name,
       user_last_name: req.body.user_last_name,
       user_email: req.body.user_email,
-      user_password: Secpassword,
+      user_password: req.body.user_password,
     };
     await user_model.create(body);
     return resp.status(200).json({ msg: "successfully registerd" });
@@ -27,7 +25,7 @@ async function Login(req, resp) {
   try {
     const data = await user_model.findOne({ user_email: body.user_email }); //fetch data
     if (data) {
-      if (await bcrypt.compare(body.user_password, data.user_password)) {
+      if (await data.isPasswordCorrect(body.user_password)) {
         return resp.status(200).json({ msg: "successfully Login", data: data });
       } else {
         return resp.status(300).json({ msg: "Incorrect password" });

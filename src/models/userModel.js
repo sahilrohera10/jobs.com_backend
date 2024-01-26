@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-
+const bcrypt = require("bcrypt");
 const userModelSchema = mongoose.Schema(
   {
     user_first_name: {
@@ -27,36 +27,16 @@ const userModelSchema = mongoose.Schema(
   { timestamps: true }
 );
 
-// userModelSchema.pre("save", async function (next) {
-//   if (!this.isModified("user_password")) return next();
+userModelSchema.pre("save", async function (next) {
+  if (!this.isModified("user_password")) return next();
 
-//   this.user_password = await bcrypt.hash(this.user_password, 10);
-//   return next();
-// });
+  this.user_password = await bcrypt.hash(this.user_password, 10);
+  return next();
+});
 
-// userModelSchema.methods.isPasswordCorrect = async function (password) {
-//   return await bcrypt.compare(password, this.user_password);
-// };
-
-
-// userModelSchema.pre('save', async function (next) {
-//   if (!this.isModified('user_password')) return next();
-
-//   try {
-//     this.user_password = await bcrypt.hash(this.user_password, 10);
-//     return next();
-//   } catch (error) {
-//     return next(error);
-//   }
-// });
-
-// userModelSchema.methods.isPasswordCorrect = async function (password) {
-//   try {
-//     return await bcrypt.compare(password, this.user_password);
-//   } catch (error) {
-//     throw error; // Handle or log the error as needed
-//   }
-// };
+userModelSchema.methods.isPasswordCorrect = async function (password) {
+  return await bcrypt.compare(password, this.user_password);
+};
 
 const userModel = mongoose.model("userModel", userModelSchema);
 module.exports = userModel;

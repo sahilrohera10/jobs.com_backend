@@ -26,15 +26,15 @@ const sendMail = async (email,sub,text) => {
     transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
         console.log(error);
-        res.send("error");
+        // res.send("error");
       } else {
         console.log("send");
-       res.send("success");
+      //  res.send("success");
       }
     });
   } catch (error) {
     console.log("error : ", error);
-    return res.status(400).json({ message: error });
+    // return res.status(400).json({ message: error });
   }
 
 

@@ -1,6 +1,10 @@
 const user_model = require("../models/userModel");
 const bcrypt = require("bcrypt");
 const { sendMail } = require("../Services/sendMail");
+const applicationModel = require("../models/applicationModel");
+const saveJobModel = require("../models/saveJobModel");
+const jobCompanyModel = require("../models/jobCompanyModel");
+const { brotliDecompress } = require("zlib");
 
 function generateToken() {
   console.log("in generate function");
@@ -90,9 +94,52 @@ async function verifyOtpandUpdatePassword(req, resp) {
     return resp.status(500).json({ error: error });
   }
 }
+
+async function getProfileDetails(req,resp){
+  try{
+    const userId = req.params.userId
+    const data = await user_model.find({ _id : userId });
+    return resp.status(200).json({data: data});
+  
+  } catch(error) {
+    return resp.status(500).json({error: error});
+  }
+}
+
+async function getAllAppliedJobs(req, resp){
+  try {
+    const userId = req.params.userId;
+    const data =  await applicationModel.find({user_id:userId});
+
+    //just listing the applications , we need to add lookup 
+    return resp.status(200).json({data:data});
+  } catch (error) {
+    return resp.status(500).json({error: error});
+  }
+}
+
+async function saveJobPost(req, resp){
+  try {
+    const body = req.body;
+    const job = await saveJobModel.findOne({user_id: body.user_id, job_id:body.job_id});
+    if(job){
+      return resp.status(200).json({msg: 'job already saved'})
+
+    }
+    const data = await saveJobModel.create(req.body);
+    return resp.status(200).json({msg: 'job saved successfully'})
+
+  } catch (error) {
+    return resp.status(500).json({error: error});
+  }
+}
+
 module.exports = {
   Register,
   Login,
   sendOtpforgetPassword,
   verifyOtpandUpdatePassword,
+  getProfileDetails,
+  getAllAppliedJobs,
+  saveJobPost,
 };

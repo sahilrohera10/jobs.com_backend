@@ -24,7 +24,7 @@ async function CreateJobByCompany(req, res) {
     });
   } catch (error) {
     console.log("error->", error);
-    return res.status(500).jsone({ error: error });
+    return res.status(500).json({ error: error });
   }
 }
 
@@ -43,21 +43,21 @@ async function DeleteJobByCompany(req, res) {
     return res.status(200).json({ message: "Successfully deleted the job." });
   } catch (error) {
     console.log("error->", error);
-    return res.status(500).jsone({ error: error });
+    return res.status(500).json({ error: error });
   }
 }
 
 async function GetAllJobsByCompany(req, res) {
   const company_id = req.params.company_id;
   try {
-    const CompanyExist = await companyModel.findOne({ company_id: company_id });
+    const CompanyExist = await companyModel.findOne({ _id: company_id });
     if (!CompanyExist) {
       return res
         .status(400)
         .json({ message: `Company Id - ${company_id} does not exist` });
     }
     const jobs = await jobCompanyModel
-      .find({ company_id: company_id })
+      .find({ _id: company_id })
       .sort({ created_at: -1 });
     if (jobs.length == 0) {
       return res.status(200).json({ message: "No Jobs Listed" });
@@ -68,7 +68,7 @@ async function GetAllJobsByCompany(req, res) {
     });
   } catch (error) {
     console.log("error->", error);
-    return res.status(500).jsone({ error: error });
+    return res.status(500).json({ error: error });
   }
 }
 
@@ -88,6 +88,6 @@ async function UpdateJobByCompany(req, res) {
       .json({ message: `Job details of Id - ${job_ref_id} is updated` , job: job});
   } catch (error) {
     console.log("error->", error);
-    return res.status(500).jsone({ error: error });
+    return res.status(500).json({ error: error });
   }
 }

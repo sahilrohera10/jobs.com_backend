@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-
+const bcrypt = require("bcrypt");
 const userModelSchema = mongoose.Schema(
   {
     user_first_name: {
@@ -15,13 +15,16 @@ const userModelSchema = mongoose.Schema(
     user_email: {
       type: String,
       trim: true,
-      required: [true, "email is reuired"],
+      required: [true, "email is required"],
       lowercase: true,
       unique: true,
     },
     user_password: {
       type: String,
       required: true,
+    },
+    user_otp: {
+      type: Number,
     },
   },
   { timestamps: true }

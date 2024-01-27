@@ -1,11 +1,14 @@
-const jobCntlr = require('../controllers/jobCntlr');
-const Router  = require('express');
+const jobCntlr = require("../controllers/jobCntlr");
+const express = require("express");
 
-const router = Router();
+const jobRouter = express.Router();
 
-router.post("/NewJobByCompany",jobCntlr.CreateJobByCompany);
-router.delete("/DeleteJobByCompany/:job_ref_id",jobCntlr.DeleteJobByCompany);
-router.get("/GetAllJobsByCompany/:company_id",jobCntlr.GetAllJobsByCompany);
-router.put("/UpdateJobByCompany",jobCntlr.UpdateJobByCompany);
+jobRouter.post("/NewJobByCompany", jobCntlr.CreateJobByCompany);
+jobRouter.delete(
+  "/DeleteJobByCompany/:job_ref_id",
+  jobCntlr.DeleteJobByCompany
+);
+jobRouter.get("/GetAllJobsByCompany/:company_id", jobCntlr.GetAllJobsByCompany);
+jobRouter.put("/UpdateJobByCompany", jobCntlr.UpdateJobByCompany);
 
-module.exports = router;
+module.exports = jobRouter;

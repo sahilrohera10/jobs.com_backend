@@ -5,6 +5,8 @@ const PORT = 8001;
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const user_route = require("../src/routes/userRoutes");
+const jobRouter = require("./routes/jobRoutes");
+const adminRoute = require("./routes/adminRoutes");
 
 dotenv.config();
 
@@ -18,6 +20,8 @@ mongoose
   .catch((err) => console.log(err));
 
 app.use("/user", user_route);
+app.use("/jobs", jobRouter);
+app.use("/admin", adminRoute);
 
 app.listen(PORT, () => {
   console.log(`listening on port ${PORT}`);

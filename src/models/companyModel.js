@@ -19,7 +19,7 @@ const campanyModelSchema = mongoose.Schema(
       required: true,
     },
     company_location: {
-      type: String,
+      type: String, 
       trim: true,
       required: true,
     },

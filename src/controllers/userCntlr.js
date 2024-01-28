@@ -109,7 +109,7 @@ async function getProfileDetails(req,resp){
 async function getAllAppliedJobs(req, resp){
   try {
     const userId = req.params.userId;
-    const data =  await applicationModel.find({user_id:userId});
+    const data =  await applicationModel.find({user_id : userId});
 
     //just listing the applications , we need to add lookup 
     return resp.status(200).json({data:data});
@@ -134,6 +134,47 @@ async function saveJobPost(req, resp){
   }
 }
 
+async function applyToJob(req,resp){
+  try {
+    
+    const alreadyApplied = await applicationModel.findOne({user_id: req.body.user_id , job_id: req.body.job_id });
+    if(alreadyApplied){
+      return resp.status(200).json({msg:'Job already applied'})
+    }
+    const data = await applicationModel.create(req.body);//frontend fields should be same as model fields
+    return resp.status(200).json({msg:'Job applied successfully'});
+
+  } catch (error) {
+    return resp.status(500).json({error: error});
+  }
+}
+
+async function getAllSavedJobs(req,resp){
+  try {
+    const userId = req.params.userId;
+    const jobs = await saveJobModel.find({user_id : userId});
+
+    return resp.status(200).json({data: jobs});
+
+  } catch (error) {
+    return resp.status(500).json({error: error});
+  }
+}
+
+async function editProfile(req, resp){
+  try {
+    const userId =  req.params.userId;
+    const body = req.body;
+
+    const data = await user_model.updateOne({_id : userId},{$set : body})
+    return resp.status(200).json({msg: 'Profile updated successfully',data: data});
+    
+
+  } catch (error) {
+    return resp.status(500).json({error: error});
+  }
+}
+
 module.exports = {
   Register,
   Login,
@@ -142,4 +183,7 @@ module.exports = {
   getProfileDetails,
   getAllAppliedJobs,
   saveJobPost,
+  applyToJob,
+  getAllSavedJobs,
+  editProfile,
 };

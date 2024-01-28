@@ -51,14 +51,13 @@ async function GetAllJobsByCompany(req, res) {
   const company_id = req.params.company_id;
   try {
     const CompanyExist = await companyModel.findOne({ _id: company_id });
+
     if (!CompanyExist) {
       return res
         .status(400)
         .json({ message: `Company Id - ${company_id} does not exist` });
-    }
-    const jobs = await jobCompanyModel
-      .find({ _id: company_id })
-      .sort({ created_at: -1 });
+    } 
+    const jobs = await jobCompanyModel.find({ _id: company_id }).sort({ created_at: -1 });
     if (jobs.length == 0) {
       return res.status(200).json({ message: "No Jobs Listed" });
     }

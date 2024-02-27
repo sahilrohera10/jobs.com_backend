@@ -7,6 +7,7 @@ const mongoose = require("mongoose");
 const user_route = require("../src/routes/userRoutes");
 const jobRouter = require("./routes/jobRoutes");
 const adminRoute = require("./routes/adminRoutes");
+const companyRoute = require("./routes/companyRoutes")
 
 dotenv.config();
 
@@ -22,6 +23,7 @@ mongoose
 app.use("/user", user_route);
 app.use("/jobs", jobRouter);
 app.use("/admin", adminRoute);
+app.use("/company", companyRoute);
 
 app.listen(PORT, () => {
   console.log(`listening on port ${PORT}`);

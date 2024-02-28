@@ -10,7 +10,7 @@ module.exports = {
 async function CreateJobByCompany(req, res) {
   const body = req.body;
   try {
-    const { job_ref_id } = body.job_ref_id;
+    const job_ref_id = body.job_ref_id;
     const isJobAlreadyExist = await jobCompanyModel.findOne({
       job_ref_id: job_ref_id,
     });
@@ -57,7 +57,8 @@ async function GetAllJobsByCompany(req, res) {
         .status(400)
         .json({ message: `Company Id - ${company_id} does not exist` });
     } 
-    const jobs = await jobCompanyModel.find({ _id: company_id }).sort({ created_at: -1 });
+    const jobs = await jobCompanyModel.find({ company_id: company_id }).sort({ created_at: -1 });
+    console.log(jobs)
     if (jobs.length == 0) {
       return res.status(200).json({ message: "No Jobs Listed" });
     }
@@ -73,12 +74,11 @@ async function GetAllJobsByCompany(req, res) {
 
 async function UpdateJobByCompany(req, res) {
   const { job_ref_id } = req.body;
+  const body  = req.body;
   try {
-    const job = await jobCompanyModel.findByIdAndUpdate(
-      job_ref_id,
-      {
-        body,
-      },
+    const job = await jobCompanyModel.findOneAndUpdate(
+      {job_ref_id:job_ref_id},
+      { $set: body },
       { new: true }
     );
 

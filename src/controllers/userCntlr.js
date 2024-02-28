@@ -1,10 +1,7 @@
 const user_model = require("../models/userModel");
-const bcrypt = require("bcrypt");
 const { sendMail } = require("../Services/sendMail");
 const applicationModel = require("../models/applicationModel");
 const saveJobModel = require("../models/saveJobModel");
-const jobCompanyModel = require("../models/jobCompanyModel");
-const { brotliDecompress } = require("zlib");
 
 function generateToken() {
   console.log("in generate function");

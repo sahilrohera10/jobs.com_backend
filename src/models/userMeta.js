@@ -13,6 +13,11 @@ const userMetaSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    role: {
+      type: String,
+      required: true,
+      enum: ["User", "Company", "Admin"],
+    },
     user_otp: {
       type: Number,
     },

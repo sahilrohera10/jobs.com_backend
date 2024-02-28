@@ -12,118 +12,103 @@ const userModelSchema = mongoose.Schema(
       trim: true,
       required: true,
     },
-    user_title:{
+    user_title: {
       type: String,
       trim: true,
       required: true,
     },
-    user_header:{
+    user_header: {
       type: String,
       trim: true,
       required: true,
     },
-    user_skills:[
+    user_skills: [
       {
         type: String,
         trim: true,
         // required: true,
-      }
+      },
     ],
-    user_accomplishments:[
+    user_accomplishments: [
       {
         type: String,
         trim: true,
         // required: true,
-      }
+      },
     ],
-    user_experience:[
+    user_experience: [
       {
-        company_name :{
+        company_name: {
           type: String,
           trim: true,
         },
-        role:{
+        role: {
           type: String,
-          trim : true,
+          trim: true,
         },
-        start_date:{
+        start_date: {
           type: Date,
           trim: true,
         },
-        end_date:{
+        end_date: {
           type: String,
           trim: true,
         },
-        location:{
+        location: {
           type: String,
           trim: true,
-        }
-
-
-      }
-      
+        },
+      },
     ],
-    user_education:[
+    user_education: [
       {
-        college:{
+        college: {
           type: String,
           trim: true,
         },
-        degree:{
+        degree: {
           type: String,
           trim: true,
         },
-        start_date:{
+        start_date: {
           type: Date,
           trim: true,
         },
-        end_date:{
+        end_date: {
           type: String,
           trim: true,
         },
-        cgpa:{
+        cgpa: {
           type: String,
           trim: true,
-        }
-      }
+        },
+      },
     ],
-    user_projects:[
+    user_projects: [
       {
-        project_img:{
-          type:String,
-          trim:true,
-        },
-        project_title:{
+        project_img: {
           type: String,
           trim: true,
         },
-        project_desc:{
-          type :String,
-          trim:true,
-        },
-        github:{
+        project_title: {
           type: String,
-
+          trim: true,
         },
-        live_link:{
-          type:String,
-        }
-      }
-    ]
+        project_desc: {
+          type: String,
+          trim: true,
+        },
+        github: {
+          type: String,
+        },
+        live_link: {
+          type: String,
+        },
+      },
+    ],
   },
   { timestamps: true }
 );
-
-userModelSchema.pre("save", async function (next) {
-  if (!this.isModified("user_password")) return next();
-
-  this.user_password = await bcrypt.hash(this.user_password, 10);
-  return next();
-});
-
-userModelSchema.methods.isPasswordCorrect = async function (password) {
-  return await bcrypt.compare(password, this.user_password);
-};
 
 const userModel = mongoose.model("userModel", userModelSchema);
 module.exports = userModel;

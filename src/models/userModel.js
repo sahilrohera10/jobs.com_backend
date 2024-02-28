@@ -2,38 +2,36 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const userModelSchema = mongoose.Schema(
   {
+    user_meta_id: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+    },
     user_first_name: {
       type: String,
-      required: true,
       trim: true,
     },
     user_last_name: {
       type: String,
       trim: true,
-      required: true,
     },
     user_title: {
       type: String,
       trim: true,
-      required: true,
     },
     user_header: {
       type: String,
       trim: true,
-      required: true,
     },
     user_skills: [
       {
         type: String,
         trim: true,
-        // required: true,
       },
     ],
     user_accomplishments: [
       {
         type: String,
         trim: true,
-        // required: true,
       },
     ],
     user_experience: [
